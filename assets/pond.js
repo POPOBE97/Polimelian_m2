@@ -5,9 +5,11 @@ class Pond {
         this.size = 50
     }
 
-    draw(p) {
-        p.stroke(255)
-        p.fill(0, 0, 255)
-        p.circle(this.x, this.y, this.size)
+    draw() {
+        stroke(255)
+        strokeWeight(1)
+        fill(0, 0, 255)
+        circle(this.x, this.y, this.size / 2)
+        
     }
 }
