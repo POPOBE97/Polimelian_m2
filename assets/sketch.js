@@ -17,6 +17,18 @@ draw = function () {
 
     polimelian.findPond(pond)
     polimelian.detectPond(pond)
+
+    annotate()
+}
+
+annotate = function() {
+    textFont("monospace");
+    annotation = polimelian.annotate()
+    var index = 1;
+    for (let i = 0; i < annotation.length; i++, index++) {
+        const anno = annotation[i];
+        text(anno, 0, index * 15)
+    }
 }
 
 // called by p5.js when key released

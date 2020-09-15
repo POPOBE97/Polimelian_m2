@@ -22,6 +22,10 @@ class Robot {
         line(this.x, this.y, this.x + dx, this.y - dy)
     }
 
+    annotate() {
+        return ["Pond:".padEnd(10, ' ')+(function(t) { t.detectedPond == undefined ? -1 : t.detectedPond.direction.toFixed(2)})(this), "In Pond:".padEnd(10, ' ')+this.isInPond]
+    }
+
     drawBody() {
         stroke(255)
         fill(255)
@@ -29,17 +33,12 @@ class Robot {
 
         strokeWeight(0)
         fill(255)
-        text("Pond   : "+this.detectedPond.direction, 0, 15)
-
-        strokeWeight(0)
-        fill(255)
         text(this.direction, this.x+this.size, this.y)
-
-        strokeWeight(0)
-        fill(255)
-        text("in Pond: "+this.isInPond, 0, 30)
     }
 
+    // Move
+    // l: number # left wheel speed
+    // r: number # right wheel speed
     move(l, r) {
         var delta = r - l
         if (delta != 0) {
@@ -53,12 +52,16 @@ class Robot {
         this.y -= speed * Math.sin(radians(this.direction))
     }
 
+
+    // Detect if is in the pond.
     detectPond(p) {
         if (dist(p.x, p.y, this.x, this.y) < p.size / 2) this.isInPond = true
         else this.isInPond = false
         return this.isInPond
     }
 
+    // Find the pond and return the corresponding direction.
+    // Clear the result if no pond in sight.
     findPond(p) {
         var dir = this.getObjDir(p)
         dir -= this.direction
@@ -68,6 +71,9 @@ class Robot {
             this.detectedPond = {}
     }
 
+    // Clear the previous searching result. 
+    // Then find all targets in the surrounding. 
+    // others: Array<Object>
     findTargets(others) {
         this.detectedTargets = []
         for (const obj of object) {
